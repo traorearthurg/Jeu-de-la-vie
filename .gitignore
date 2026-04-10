@@ -1,0 +1,20 @@
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# Fichiers de configuration de PyCharm
+.idea/
+
+# Fichiers compilés Python (qui se créent tout seuls)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers d'environnement (si tu mets des mots de passe ou des clés plus tard)
+.env
+
+# Dossiers Mac/Windows (si tu partages ton code)
+.DS_Store
+Thumbs.db
