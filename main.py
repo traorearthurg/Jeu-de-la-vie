@@ -1,5 +1,5 @@
 import random
-
+import time
 
 class JeuDeLaVie:
     # 1. Le Constructeur (Initialisation de l'objet)
@@ -27,6 +27,7 @@ class JeuDeLaVie:
         return grille_principale
 
     def compter_voisins(self, ligne, colonne):
+        """Compte les voisins directs de chaques célulles ( + diagonales)"""
         compteur = 0
         for i in [-1, 0, 1]:
             for j in [-1, 0, 1]:
@@ -42,6 +43,29 @@ class JeuDeLaVie:
 
 
 
+    def generation_suivante(self):
+        """ Mets à jour la grille selon les règles de Conway"""
+        nouvelle_grille = []
+
+        for i in range(self.lignes):
+            nouvelle_ligne = []
+            for j in range (self.colonnes):
+                nb_voisins = self.compter_voisins(i,j)
+                if self.grille[i][j]==1:
+                    if nb_voisins < 2:
+                        nouvelle_ligne.append(0)
+                    elif nb_voisins == 2 or nb_voisins == 3:
+                        nouvelle_ligne.append(1)
+                    elif nb_voisins > 3:
+                        nouvelle_ligne.append(0)
+                else:
+                    if nb_voisins ==3:
+                        nouvelle_ligne.append(1)
+                    else:
+                        nouvelle_ligne.append(0)
+
+            nouvelle_grille.append(nouvelle_ligne)
+        self.grille = nouvelle_grille
 
     def afficher_console(self):
         """Affiche la grille dans le terminal pour tester."""
@@ -51,11 +75,12 @@ class JeuDeLaVie:
 
 
 # --- Zone de Test ---
-# Ce code ne s'exécute que si tu lances ce fichier directement
 if __name__ == "__main__":
-    # On crée une "instance" (un objet physique) à partir de notre plan (la classe)
+    # On crée une "instance"
     mon_jeu = JeuDeLaVie(10, 10)
-    # On demande à notre objet de s'afficher
-    mon_jeu.afficher_console()
-
-print("Voisins de la case (2,2) :", mon_jeu.compter_voisins(2, 2))
+    # On va faire évoluer la grille 5 fois de suite
+    for tour in range(5):
+        print(f"\n--- Génération {tour} ---")
+        mon_jeu.afficher_console()
+        mon_jeu.generation_suivante()
+        time.sleep(1)  # Fait une pause d'1 seconde pour qu'on ait le temps de lire
